@@ -33,3 +33,25 @@ void	free_matrix(char **str)
 		free(str[i]);
 	free(str);
 }
+
+
+int	mouse_move(int x, int y, t_data *map)
+{
+	static int	old_x;
+
+	if (x <= WIN_W && x >= 0 && y <= WIN_H && y >= 0)
+	{
+		if (x < old_x)
+			if_left(map);
+		else if (x > old_x)
+			if_right(map);
+	}
+	old_x = x;
+	return (0);
+}
+
+int	ft_exit(t_data *map)
+{
+	(void)map;
+	exit(0);
+}

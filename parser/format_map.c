@@ -21,21 +21,14 @@ void	map_size(t_data *map)
 	i = 0;
 	l = 0;
 	weight = 0;
-	while (map->map_buf[i])
+	while (map->map[i])
 	{
-		if (ft_strlen(map->map_buf[i]) > weight)
+		if (ft_strlen(map->map[i]) > weight)
 		{
-			weight = ft_strlen(map->map_buf[i]);
+			weight = ft_strlen(map->map[i]);
 			map->img.w = weight;
 		}
 		i++;
 	}
 	map->img.h = i - 1;
-}
-
-
-// TODO Сконвертировать цвета пола и потолка сразу
-int	ft_hex(int r, int g, int b)
-{
-	return (r << 16 | g << 8 | b);
 }

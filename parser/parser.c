@@ -102,10 +102,8 @@ static void	overwriting_the_map(char ***map, char **map_file)
 void	parser(t_data *map, char *file)
 {
 	int		fd;
-	int		i;
 	char	**split_file;
 
-	i = 0;
 	split_file = NULL;
 	check_file(file);
 	fd = open(file, O_RDONLY);
@@ -115,8 +113,8 @@ void	parser(t_data *map, char *file)
 	check_map_info(split_file);
 	record_file_info(split_file, map);
 	recording_map(split_file + 6);
-	overwriting_the_map(&map->map_buf, split_file + 6);
-	map_valid(map->map_buf);
+	overwriting_the_map(&map->map, split_file + 6);
+	map_valid(map->map);
 	map_size(map);
 	free_matrix(split_file);
 	close(fd);

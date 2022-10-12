@@ -1,26 +1,14 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: modysseu <modysseu@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/06 13:54:23 by medeana           #+#    #+#             */
-/*   Updated: 2022/04/14 16:17:59 by modysseu         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "../cub3d.h"
 
-#include "../cub.h"
-
-void	init(t_cub *cub)
+void	init(t_data *map)
 {
-	init_pos(cub);
-	cub->move_speed = 0.05;
-	cub->rot_speed = 0.05;
-	cub->back = 0;
-	cub->forward = 0;
-	cub->left = 0;
-	cub->right = 0;
+	init_pos(map);
+	map->position.move_speed = 0.05;
+	map->position.rot_speed = 0.05;
+	map->position.back = 0;
+	map->position.forward = 0;
+	map->position.left = 0;
+	map->position.right = 0;
 }
 
 void	checking_the_extension(char *file)
@@ -31,6 +19,6 @@ void	checking_the_extension(char *file)
 	if (ft_strncmp(".cub\0", file + i, 4))
 	{
 		print_error("Incorrect file extension: ", file, "\n", NULL);
-		exit (EXIT_FAILURE);
+		exit(EXIT_FAILURE);
 	}
 }

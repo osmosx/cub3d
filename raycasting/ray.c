@@ -1,120 +1,108 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ray.c                                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: medeana <medeana@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/06 13:57:33 by medeana           #+#    #+#             */
-/*   Updated: 2022/05/03 21:02:47 by medeana          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "../cub3d.h"
 
-#include "../cub.h"
-
-void	wrapper_draw_line(t_cub **cub)
+void	wrapper_draw_line(t_data **map)
 {
-	if ((*cub)->side == 0 && (*cub)->ray_dir_x < 0)
-		(*cub)->text = 0;
-	if ((*cub)->side == 0 && (*cub)->ray_dir_x >= 0)
-		(*cub)->text = 1;
-	if ((*cub)->side == 1 && (*cub)->ray_dir_y < 0)
-		(*cub)->text = 2;
-	if ((*cub)->side == 1 && (*cub)->ray_dir_y >= 0)
-		(*cub)->text = 3;
+	if ((*map)->draw.side == 0 && (*map)->draw.ray_dir_x < 0)
+		(*map)->draw.text = 0;
+	if ((*map)->draw.side == 0 && (*map)->draw.ray_dir_x >= 0)
+		(*map)->draw.text = 1;
+	if ((*map)->draw.side == 1 && (*map)->draw.ray_dir_y < 0)
+		(*map)->draw.text = 2;
+	if ((*map)->draw.side == 1 && (*map)->draw.ray_dir_y >= 0)
+		(*map)->draw.text = 3;
 }
 
-void	draw_line(t_cub *cub)
+void	draw_line(t_data *map)
 {
-	cub->line_h = (int)(SHEIGHT / cub->perp_wall);
-	cub->draw_start = (-cub->line_h / 2) + (SHEIGHT / 2);
-	if (cub->draw_start < 0)
-		cub->draw_start = 0;
-	cub->draw_end = (cub->line_h / 2) + (SHEIGHT / 2);
-	if (cub->draw_end >= SHEIGHT || cub->draw_end < 0)
-		cub->draw_end = SHEIGHT - 1;
-	cub->tex_num = cub->map[cub->map_x][cub->map_y];
-	wrapper_draw_line(&cub);
-	if (cub->side == 0)
-		cub->wall_x = cub->pos_y + cub->perp_wall * cub->ray_dir_y;
+	map->draw.line_h = (int)(WIN_H / map->draw.perp_wall);
+	map->draw.draw_start = (-map->draw.line_h / 2) + (WIN_H / 2);
+	if (map->draw.draw_start < 0)
+		map->draw.draw_start = 0;
+	map->draw.draw_end = (map->draw.line_h / 2) + (WIN_H / 2);
+	if (map->draw.draw_end >= WIN_H || map->draw.draw_end < 0)
+		map->draw.draw_end = WIN_H - 1;
+	map->draw.tex_num = map->map[map->draw.map_x][map->draw.map_y];
+	wrapper_draw_line(&map);
+	if (map->draw.side == 0)
+		map->draw.wall_x = map->position.pos_y + map->draw.perp_wall * map->draw.ray_dir_y;
 	else
-		cub->wall_x = cub->pos_x + cub->perp_wall * cub->ray_dir_x;
-	cub->wall_x -= floor(cub->wall_x);
-	cub->tex_x = (int)(cub->wall_x * (double)TEXW);
-	if (cub->side == 0 && cub->ray_dir_x > 0)
-		cub->tex_x = TEXW - cub->tex_x - 1;
-	if (cub->side == 1 && cub->ray_dir_y < 0)
-		cub->tex_x = TEXW - cub->tex_x - 1;
-	cub->step = 1.0 * TEXH / cub->line_h;
-	cub->tex_pos = (cub->draw_start - SHEIGHT \
-		/ 2 + cub->line_h / 2) * cub->step;
+		map->draw.wall_x = map->position.pos_x + map->draw.perp_wall * map->draw.ray_dir_x;
+	map->draw.wall_x -= floor(map->draw.wall_x);
+	map->draw.tex_x = (int)(map->draw.wall_x * (double)TEX_W);
+	if (map->draw.side == 0 && map->draw.ray_dir_x > 0)
+		map->draw.tex_x = TEX_W - map->draw.tex_x - 1;
+	if (map->draw.side == 1 && map->draw.ray_dir_y < 0)
+		map->draw.tex_x = TEX_W - map->draw.tex_x - 1;
+	map->draw.step = 1.0 * TEX_H / map->draw.line_h;
+	map->draw.tex_pos = (map->draw.draw_start - WIN_H \
+		/ 2 + map->draw.line_h / 2) * map->draw.step;
 }
 
-void	hit(t_cub *cub)
+void	hit(t_data *map)
 {
-	cub->hit = 0;
-	while (cub->hit == 0)
+	map->draw.hit = 0;
+	while (map->draw.hit == 0)
 	{
-		if (cub->side_dist_x < cub->side_dist_y)
+		if (map->draw.side_dist_x < map->draw.side_dist_y)
 		{
-			cub->side_dist_x += cub->delta_dist_x;
-			cub->map_x += cub->step_x;
-			cub->side = 0;
+			map->draw.side_dist_x += map->draw.delta_dist_x;
+			map->draw.map_x += map->draw.step_x;
+			map->draw.side = 0;
 		}
 		else
 		{
-			cub->side_dist_y += cub->delta_dist_y;
-			cub->map_y += cub->step_y;
-			cub->side = 1;
+			map->draw.side_dist_y += map->draw.delta_dist_y;
+			map->draw.map_y += map->draw.step_y;
+			map->draw.side = 1;
 		}
-		if (cub->map[cub->map_x][cub->map_y] == '1')
-			cub->hit = 1;
+		if (map->map[map->draw.map_x][map->draw.map_y] == '1')
+			map->draw.hit = 1;
 	}
-	if (cub->side == 0)
-		cub->perp_wall = ((double)cub->map_x - cub->pos_x \
-			+ (1 - (double)cub->step_x) / 2) / cub->ray_dir_x;
+	if (map->draw.side == 0)
+		map->draw.perp_wall = ((double)map->draw.map_x - map->position.pos_x \
+			+ (1 - (double)map->draw.step_x) / 2) / map->draw.ray_dir_x;
 	else
-		cub->perp_wall = ((double)cub->map_y - cub->pos_y \
-			+ (1 - (double)cub->step_y) / 2) / cub->ray_dir_y;
+		map->draw.perp_wall = ((double)map->draw.map_y - map->position.pos_y \
+			+ (1 - (double)map->draw.step_y) / 2) / map->draw.ray_dir_y;
 }
 
-void	wrapper_calc_and_save(t_cub **cub, int *x)
+void	wrapper_calc_and_save(t_data **map, int *x)
 {
-	(*cub)->camera_x = 2 * (*x) / (double)(SWIGHT) - 1;
-	(*cub)->ray_dir_x = (*cub)->dir_vector_x \
-		+ (*cub)->plane_x * (*cub)->camera_x;
-	(*cub)->ray_dir_y = (*cub)->dir_vector_y \
-		+ (*cub)->plane_y * (*cub)->camera_x;
-	(*cub)->map_x = (int)(*cub)->pos_x;
-	(*cub)->map_y = (int)(*cub)->pos_y;
-	(*cub)->delta_dist_x = fabs(1 / (*cub)->ray_dir_x);
-	(*cub)->delta_dist_y = fabs(1 / (*cub)->ray_dir_y);
+	(*map)->draw.camera_x = 2 * (*x) / (double)(WIN_W) - 1;
+	(*map)->draw.ray_dir_x = (*map)->position.dir_vector_x \
+		+ (*map)->position.plane_x *(*map)->draw.camera_x;
+	(*map)->draw.ray_dir_y = (*map)->position.dir_vector_y \
+		+ (*map)->position.plane_y * (*map)->draw.camera_x;
+	(*map)->draw.map_x = (int)(*map)->position.pos_x;
+	(*map)->draw.map_y = (int)(*map)->position.pos_y;
+	(*map)->draw.delta_dist_x = fabs(1 / (*map)->draw.ray_dir_x);
+	(*map)->draw.delta_dist_y = fabs(1 / (*map)->draw.ray_dir_y);
 }
 
-int	calc_and_save(t_cub *cub)
+int	calc_and_save(t_data *map)
 {
 	int	x;
 	int	color;
 
 	x = 0;
-	while (x < SWIGHT)
+	while (x < WIN_W)
 	{
-		wrapper_calc_and_save(&cub, &x);
-		step(cub);
-		hit(cub);
-		draw_line(cub);
-		while (cub->draw_start < cub->draw_end)
+		wrapper_calc_and_save(&map, &x);
+		step(map);
+		hit(map);
+		draw_line(map);
+		while (map->draw.draw_start < map->draw.draw_end)
 		{
-			cub->tex_y = (int)cub->tex_pos % TEXH;
-			cub->tex_pos += cub->step;
-			color = cub->texture[cub->text][TEXH * cub->tex_y + cub->tex_x];
-			if (cub->side == 1)
+			map->draw.tex_y = (int)map->draw.tex_pos % TEX_H;
+			map->draw.tex_pos += map->draw.step;
+			color = map->texture.texture[map->draw.text][TEX_H * map->draw.tex_y + map->draw.tex_x];
+			if (map->draw.side == 1)
 				color = (color >> 1) & 8355711;
-			cub->buf[cub->draw_start][x] = color;
-			cub->draw_start++;
+			map->buf[map->draw.draw_start][x] = color;
+			map->draw.draw_start++;
 		}
 		x++;
 	}
-	ft_key_press(cub);
+	key_press_pos(map);
 	return (0);
 }

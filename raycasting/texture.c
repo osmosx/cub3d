@@ -9,7 +9,7 @@ void	load_img(t_data *map, int *texture, char *path)
 	map->img.img = mlx_xpm_file_to_image(map->mlx_ptr, path,
 			&map->img.w, &map->img.h);
 	map->img.data = (int *)mlx_get_data_addr(map->img.img, \
-		&map->img.bits_per_pixel, &map->img.size, &map->img->endian);
+		&map->img.bits_per_pixel, &map->img.size, &map->img.endian);
 	while (y < map->img.h)
 	{
 		x = 0;
@@ -25,17 +25,13 @@ void	load_img(t_data *map, int *texture, char *path)
 
 void	load_texture(t_data *map)
 {
-//	load_img(map, map->texture.texture[0], map->texture.north);
-//	load_img(map, map->texture.texture[1], map->texture.south);
-//	load_img(map, map->texture.texture[2], map->texture.west);
-//	load_img(map, map->texture.texture[3], map->texture.east);
-	load_img(map, map->texture.texture[0], "./texture/NO2");
-	load_img(map, map->texture.texture[1], "./texture/SO2");
-	load_img(map, map->texture.texture[2], "./texture/WE2");
-	load_img(map, map->texture.texture[3], "./texture/EA2");
+	load_img(map, map->texture.texture[0], map->texture.north);
+	load_img(map, map->texture.texture[1], map->texture.south);
+	load_img(map, map->texture.texture[2], map->texture.west);
+	load_img(map, map->texture.texture[3], map->texture.east);
 }
 
-void	image_draw(t_data *map) // ВОПРОС?????
+void	image_draw(t_data *map)
 {
 	int	x;
 	int	y;
@@ -62,12 +58,10 @@ void	ceiling_floor(t_data *map)
 	int	color_f;
 
 	x = 0;
-	color_c = create_trgb(map->texture.ceiling[0],
-			map->texture.ceiling[1], map->texture.ceiling[2],
-			map->texture.ceiling[3]);
-	color_f = create_trgb(map->texture.floor[0],
-			map->texture.floor[1], map->texture.floor[2],
-			map->texture.floor[3]);
+	color_c = hex(map->texture.ceiling[0],
+			map->texture.ceiling[1], map->texture.ceiling[2]);
+	color_f = hex(map->texture.floor[0],
+			map->texture.floor[1], map->texture.floor[2]);
 	while (x < WIN_W)
 	{
 		y = 0;

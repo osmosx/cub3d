@@ -1,37 +1,25 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ray_utils.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: modysseu <modysseu@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/14 17:35:25 by modysseu          #+#    #+#             */
-/*   Updated: 2022/04/14 17:35:55 by modysseu         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "../cub3d.h"
 
-#include "../cub.h"
-
-void	step(t_cub *cub)
+void	step(t_data *map)
 {
-	if (cub->ray_dir_x < 0)
+	if (map->draw.ray_dir_x < 0)
 	{
-		cub->step_x = -1;
-		cub->side_dist_x = (cub->pos_x - cub->map_x) * cub->delta_dist_x;
+		map->draw.step_x = -1;
+		map->draw.side_dist_x = (map->position.pos_x - map->draw.map_x) * map->draw.delta_dist_x;
 	}
 	else
 	{
-		cub->step_x = 1;
-		cub->side_dist_x = (cub->map_x + 1.0 - cub->pos_x) * cub->delta_dist_x;
+		map->draw.step_x = 1;
+		map->draw.side_dist_x = (map->draw.map_x + 1.0 - map->position.pos_x) * map->draw.delta_dist_x;
 	}
-	if (cub->ray_dir_y < 0)
+	if (map->draw.ray_dir_y < 0)
 	{
-		cub->step_y = -1;
-		cub->side_dist_y = (cub->pos_y - cub->map_y) * cub->delta_dist_y;
+		map->draw.step_y = -1;
+		map->draw.side_dist_y = (map->position.pos_y - map->draw.map_y) * map->draw.delta_dist_y;
 	}
 	else
 	{
-		cub->step_y = 1;
-		cub->side_dist_y = (cub->map_y + 1.0 - cub->pos_y) * cub->delta_dist_y;
+		map->draw.step_y = 1;
+		map->draw.side_dist_y = (map->draw.map_y + 1.0 - map->position.pos_y) * map->draw.delta_dist_y;
 	}
 }

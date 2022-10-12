@@ -13,50 +13,21 @@
 # define WIN_H 800
 # define TEX_H 1024
 # define TEX_W 1024
-# define VIEW_ANGLE 60
-# define RESOLUTION 10
-# define WALL_LINE_WID 20/RESOLUTION
-//number in WALL_LINE_WID has to be devidable by RESOLUTION
 
-# define MAP_SIZE 25
-# define PLAYER_COLOR 0x0000FF00
-# define RAY_COLOR1 0x0066FF66
-# define RAY_COLOR2 0x00661166
-# define RAY_COLOR3 0x7766FF66
-# define RAY_COLOR4 0x77661166
-# define WALL_COLOR 0x00FFFFFF
-# define BG_COLOR 0x00000000
-# define MINIMAP_X 0
-# define MINIMAP_Y 0
-# define PI 3.14159
-# define PI2 PI/2
-# define PI3 3*PI/2
-# define DEG 0.0174533
+# define BUFFER_SIZE 	1
+# define KEY_PRESS 		2
+# define KEY_RELEASE 	3
+# define KEY_EXIT		17
 
-
-typedef struct s_point
-{
-	int	x;
-	int	y;
-	int	c;
-}	t_point;
-
-typedef struct s_fpoint
-{
-	float	x;
-	float	y;
-	int		c;
-}	t_fpoint;
-
-typedef struct s_keys
-{
-	int	w;
-	int	s;
-	int	a;
-	int	d;
-	int	la;
-	int	ra;
-}	t_keys;
+# define W 				13
+# define A 				0
+# define D 				2
+# define S 				1
+# define ESC 			53
+# define UP				126
+# define DOWN			125
+# define LEFT			123
+# define RIGHT			124
 
 typedef struct s_img
 {
@@ -80,6 +51,54 @@ typedef struct s_texture
 	int		floor[3];
 }	t_texture;
 
+typedef struct s_position
+{
+	double		move_speed;
+	double		rot_speed;
+	int			forward;
+	int			back;
+	int			left;
+	int			right;
+	int			right2;
+	int			left2;
+	double		dir_vector_x;
+	double		dir_vector_y;
+	double		pos_x;
+	double		pos_y;
+	double		plane_x;
+	double		plane_y;
+
+}	t_position;
+
+typedef struct s_draw
+{
+	int			side;
+	int			text;
+	int			line_h;
+	int			draw_start;
+	int			draw_end;
+	int			map_x;
+	int			map_y;
+	int			tex_num;
+	double		camera_x;
+	double		side_dist_x;
+	double		side_dist_y;
+	double		delta_dist_x;
+	double		delta_dist_y;
+	double		step;
+	int			step_x;
+	int			step_y;
+	double		perp_wall;
+	double		ray_dir_x;
+	double		ray_dir_y;
+	double		tex_pos;
+	double		wall_x;
+	int			tex_x;
+	int			tex_y;
+	int			hit;
+
+}	t_draw;
+
 typedef struct s_data
 {
 	char		*addr;
@@ -87,27 +106,25 @@ typedef struct s_data
 	char		*win_ptr;
 	int			line_length;
 	int			endian;
-	char		**map_buf;
-	char		*map;
-	float		fpx;
-	float		fpy;
-	float		fpa;
+	char		**map;
 	int			buf[WIN_H][WIN_W];
-	t_keys		key;
 	t_img		img;
 	t_texture	texture;
+	t_position 	position;
+	t_draw 		draw;
 }				t_data;
 
-void		draw(t_data *map);
-t_fpoint	init_fpoint(float x, float y, int c);
-t_point		init_point(int x, int y, int c);
-void		my_mlx_line_put(t_data *map, t_point p1, t_point p2);
-void		my_rays_put(t_data *map);
-int			create_trgb(int t, int r, int g, int b);
+void		image_draw(t_data *map);
 
 //Raycasting
+void		init(t_data *map);
+void		init_pos(t_data *map);
 int			find_player(t_data *map);
-//void		terminal_map(char *map);
+void		ceiling_floor(t_data *map);
+int			calc_and_save(t_data *map);
+int			key_press_pos(t_data *map);
+void		step(t_data *map);
+
 //Parser
 void		parser(t_data *map, char *file);
 void		check_file(char *file);
@@ -116,11 +133,22 @@ void		record_file_info(char **split_file, t_data *map);
 void		reading_a_file(char ***split_file, int fd, char *file);
 void		map_size(t_data *map);
 void		error_read(int rd);
+void		load_texture(t_data *map);
+int			init_texture(t_data *map);
 //Utils
+int			main_loop(t_data *map);
 int			keyup(int key, t_data *map);
 int			keydown(int key, t_data *map);
 int			handle_no_event(void *map);
 void		free_matrix(char **str);
 void		print_error(char *s1, char *s2, char *s3, char *s4);
-
+int			hex(int r, int g, int b);
+int			key_release(int keycode, t_data *map);
+int			key_press(int keycode, t_data *map);
+int			mouse_move(int x, int y, t_data *map);
+int			ft_exit(t_data *map);
+void		if_left(t_data *map);
+void		if_right(t_data *map);
+void		if_forward(t_data *map);
+void		if_back(t_data *map);
 #endif
