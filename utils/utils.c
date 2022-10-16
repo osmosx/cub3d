@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nenvoy <nenvoy@student.21-school.ru>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/16 18:01:24 by nenvoy            #+#    #+#             */
+/*   Updated: 2022/10/16 18:01:25 by nenvoy           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cub3d.h"
 
 void	print_error(char *s1, char *s2, char *s3, char *s4)
@@ -33,7 +45,6 @@ void	free_matrix(char **str)
 		free(str[i]);
 	free(str);
 }
-
 
 int	mouse_move(int x, int y, t_data *map)
 {
