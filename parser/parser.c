@@ -115,7 +115,6 @@ void	parser(t_data *map, char *file)
 	recording_map(split_file + 6);
 	overwriting_the_map(&map->map, split_file + 6);
 	map_valid(map->map);
-	map_size(map);
 	free_matrix(split_file);
 	close(fd);
 }

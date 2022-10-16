@@ -9,6 +9,8 @@ void	init(t_data *map)
 	map->position.forward = 0;
 	map->position.left = 0;
 	map->position.right = 0;
+	map->position.left2 = 0;
+	map->position.right2 = 0;
 }
 
 void	checking_the_extension(char *file)

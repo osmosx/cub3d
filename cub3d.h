@@ -9,15 +9,10 @@
 # include "libmlx/mlx.h"
 # include "./libft/libft.h"
 
-# define WIN_W 1200
-# define WIN_H 800
+# define WIN_W 1280
+# define WIN_H 720
 # define TEX_H 1024
 # define TEX_W 1024
-
-# define BUFFER_SIZE 	1
-# define KEY_PRESS 		2
-# define KEY_RELEASE 	3
-# define KEY_EXIT		17
 
 # define W 				13
 # define A 				0
@@ -110,8 +105,8 @@ typedef struct s_data
 	int			buf[WIN_H][WIN_W];
 	t_img		img;
 	t_texture	texture;
-	t_position 	position;
-	t_draw 		draw;
+	t_position	position;
+	t_draw		draw;
 }				t_data;
 
 void		image_draw(t_data *map);

@@ -4,34 +4,42 @@ void	right(t_data *map)
 {
 	if (map->map[(int)(map->position.pos_x - map->position.dir_vector_y * \
 		(map->position.move_speed))][(int)map->position.pos_y] == '0')
-		map->position.pos_x -= map->position.dir_vector_y * map->position.move_speed;
+		map->position.pos_x -= map->position.dir_vector_y \
+		* map->position.move_speed;
 	if (map->map[(int)map->position.pos_x][(int)(map->position.pos_y \
 	+ map->position.dir_vector_x * (map->position.move_speed))] == '0')
-		map->position.pos_y +=map->position.dir_vector_x * map->position.move_speed;
+		map->position.pos_y += map->position.dir_vector_x \
+		* map->position.move_speed;
 }
 
 void	left(t_data *map)
 {
 	if (map->map[(int)(map->position.pos_x + map->position.dir_vector_y * \
 		(map->position.move_speed))][(int)map->position.pos_y] == '0')
-		map->position.pos_x += map->position.dir_vector_y * map->position.move_speed;
+		map->position.pos_x += map->position.dir_vector_y \
+		* map->position.move_speed;
 	if (map->map[(int)map->position.pos_x][(int)(map->position.pos_y \
 	- map->position.dir_vector_x * (map->position.move_speed))] == '0')
-		map->position.pos_y -= map->position.dir_vector_x * map->position.move_speed;
+		map->position.pos_y -= map->position.dir_vector_x \
+		* map->position.move_speed;
 }
 
 int	key_press_pos(t_data *map)
 {
 	if (map->position.forward == 1)
 	{
-		if (map->map[(int)(map->position.pos_x + map->position.dir_vector_x * map->position.move_speed)]
-			[(int)(map->position.pos_y +map->position.dir_vector_y * map->position.move_speed)] == '0')
+		if (map->map[(int)(map->position.pos_x + map->position.dir_vector_x \
+		* map->position.move_speed)]
+			[(int)(map->position.pos_y + map->position.dir_vector_y \
+			* map->position.move_speed)] == '0')
 			if_forward(map);
 	}
 	if (map->position.back == 1)
 	{
-		if (map->map[(int)(map->position.pos_x - map->position.dir_vector_x * map->position.move_speed)]
-			[(int)(map->position.pos_y - map->position.dir_vector_y * map->position.move_speed)] == '0')
+		if (map->map[(int)(map->position.pos_x - map->position.dir_vector_x \
+		* map->position.move_speed)]
+			[(int)(map->position.pos_y - map->position.dir_vector_y \
+			* map->position.move_speed)] == '0')
 			if_back(map);
 	}
 	if (map->position.left2 == 1)

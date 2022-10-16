@@ -2,9 +2,10 @@ HEADER = cub3d.h
 
 SRC = 	main.c \
 		raycasting/draw_map.c raycasting/move.c raycasting/move_utils.c raycasting/ray.c raycasting/ray_utils.c \
-		raycasting/texture.c raycasting/move_utils_two.c\
+		raycasting/texture.c \
 		utils/utils.c \
-		parser/parser.c parser/check_map.c parser/read_file.c parser/record_info.c parser/parser_utils.c
+		parser/parser.c parser/check_map.c parser/read_file.c parser/record_info.c parser/parser_utils.c \
+		parser/init.c
 #
 OBJ = $(SRC:.c=.o)
 #

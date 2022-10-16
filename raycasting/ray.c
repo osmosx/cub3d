@@ -24,9 +24,11 @@ void	draw_line(t_data *map)
 	map->draw.tex_num = map->map[map->draw.map_x][map->draw.map_y];
 	wrapper_draw_line(&map);
 	if (map->draw.side == 0)
-		map->draw.wall_x = map->position.pos_y + map->draw.perp_wall * map->draw.ray_dir_y;
+		map->draw.wall_x = map->position.pos_y + map->draw.perp_wall \
+				* map->draw.ray_dir_y;
 	else
-		map->draw.wall_x = map->position.pos_x + map->draw.perp_wall * map->draw.ray_dir_x;
+		map->draw.wall_x = map->position.pos_x + map->draw.perp_wall \
+				* map->draw.ray_dir_x;
 	map->draw.wall_x -= floor(map->draw.wall_x);
 	map->draw.tex_x = (int)(map->draw.wall_x * (double)TEX_W);
 	if (map->draw.side == 0 && map->draw.ray_dir_x > 0)
@@ -95,7 +97,8 @@ int	calc_and_save(t_data *map)
 		{
 			map->draw.tex_y = (int)map->draw.tex_pos % TEX_H;
 			map->draw.tex_pos += map->draw.step;
-			color = map->texture.texture[map->draw.text][TEX_H * map->draw.tex_y + map->draw.tex_x];
+			color = map->texture.texture[map->draw.text] \
+					[TEX_H * map->draw.tex_y + map->draw.tex_x];
 			if (map->draw.side == 1)
 				color = (color >> 1) & 8355711;
 			map->buf[map->draw.draw_start][x] = color;
